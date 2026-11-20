@@ -1,0 +1,36 @@
+body {
+  margin: 0;
+  background-color: #fff0f5;
+  color: #222;
+  font-family: Arial, sans-serif;
+}
+
+main {
+  width: calc(100% - 2rem);
+  max-width: 600px;
+  margin: 3rem auto;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+input {
+  padding: 0.65rem;
+  border: 1px solid #e8a4b8;
+  border-radius: 4px;
+  font: inherit;
+}
+
+button {
+  align-self: flex-start;
+  padding: 0.65rem 1.25rem;
+  border: 0;
+  border-radius: 4px;
+  background-color: #d63384;
+  color: white;
+  font: inherit;
+  cursor: pointer;
+}
