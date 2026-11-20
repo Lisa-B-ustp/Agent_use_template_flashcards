@@ -8,11 +8,30 @@ const wordPairList = document.getElementById("word-pairs");
 function renderWordPairs() {
   wordPairList.innerHTML = "";
 
-  for (const pair of wordPairs) {
+  for (let index = 0; index < wordPairs.length; index++) {
+    const pair = wordPairs[index];
     const listItem = document.createElement("li");
-    listItem.textContent = pair.english + " - " + pair.german;
+    const pairText = document.createElement("span");
+    const deleteButton = document.createElement("button");
+
+    pairText.textContent = pair.english + " - " + pair.german;
+    deleteButton.textContent = "Delete";
+    deleteButton.type = "button";
+    deleteButton.className = "delete-button";
+    deleteButton.addEventListener("click", function () {
+      deleteWordPair(index);
+    });
+
+    listItem.appendChild(pairText);
+    listItem.appendChild(deleteButton);
     wordPairList.appendChild(listItem);
   }
+}
+
+// Removes one word pair and redraws the list.
+function deleteWordPair(index) {
+  wordPairs.splice(index, 1);
+  renderWordPairs();
 }
 
 // Adds a valid word pair to memory and clears the form.
