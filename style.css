@@ -114,3 +114,22 @@ button:focus-visible {
   margin: 0;
   padding: 0.5rem 1rem;
 }
+
+.practice-mode {
+  margin-top: 2rem;
+  border-top: 2px solid #fce1ee;
+  padding-top: 1rem;
+  text-align: center;
+}
+
+.practice-mode h2 {
+  color: #b83280;
+  font-size: 1.25rem;
+}
+
+#practice-word,
+#practice-answer {
+  min-height: 1.5rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+}

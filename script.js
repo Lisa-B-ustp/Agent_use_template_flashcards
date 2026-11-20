@@ -2,7 +2,11 @@ const pairForm = document.getElementById("word-pair-form");
 const englishInput = document.getElementById("english-word");
 const germanInput = document.getElementById("german-word");
 const wordPairList = document.getElementById("word-pairs");
+const practiceWord = document.getElementById("practice-word");
+const practiceAnswer = document.getElementById("practice-answer");
+const revealAnswerButton = document.getElementById("reveal-answer");
 const wordPairs = loadWordPairs();
+let practiceIndex = 0;
 
 // Loads saved word pairs from browser storage.
 function loadWordPairs() {
@@ -47,8 +51,44 @@ function renderWordPairs() {
 // Removes one word pair and redraws the list.
 function deleteWordPair(index) {
   wordPairs.splice(index, 1);
+
+  if (practiceIndex >= wordPairs.length) {
+    practiceIndex = 0;
+  }
+
   saveWordPairs();
   renderWordPairs();
+  showPracticeCard();
+}
+
+// Shows the English word and hides the German answer.
+function showPracticeCard() {
+  practiceAnswer.textContent = "";
+  revealAnswerButton.textContent = "Antwort zeigen";
+
+  if (wordPairs.length === 0) {
+    practiceWord.textContent = "Keine Karte vorhanden.";
+    revealAnswerButton.disabled = true;
+    return;
+  }
+
+  practiceWord.textContent = wordPairs[practiceIndex].english;
+  revealAnswerButton.disabled = false;
+}
+
+// Toggles the German translation for the current card.
+function revealPracticeAnswer() {
+  if (wordPairs.length === 0) {
+    return;
+  }
+
+  if (practiceAnswer.textContent === "") {
+    practiceAnswer.textContent = wordPairs[practiceIndex].german;
+    revealAnswerButton.textContent = "Antwort verbergen";
+  } else {
+    practiceAnswer.textContent = "";
+    revealAnswerButton.textContent = "Antwort zeigen";
+  }
 }
 
 // Adds a valid word pair to memory and clears the form.
@@ -72,7 +112,10 @@ function handleWordPairSubmit(event) {
   pairForm.reset();
   saveWordPairs();
   renderWordPairs();
+  showPracticeCard();
 }
 
 pairForm.addEventListener("submit", handleWordPairSubmit);
+revealAnswerButton.addEventListener("click", revealPracticeAnswer);
 renderWordPairs();
+showPracticeCard();
