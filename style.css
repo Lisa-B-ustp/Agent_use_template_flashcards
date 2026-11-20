@@ -133,12 +133,12 @@ h1 {
   background: #d7eff2;
 }
 
-.art-smiley {
+.art-alien {
   position: absolute;
   right: 32px;
-  bottom: 0;
+  bottom: -3px;
   width: 112px;
-  height: 112px;
+  height: 121px;
 }
 
 .art-sparkle {
