@@ -1,0 +1,4 @@
+Flashcard website
+
+# Usage: 
+Öffne 
