@@ -4,6 +4,7 @@ const germanInput = document.getElementById("german-word");
 const wordPairList = document.getElementById("word-pairs");
 const practiceWord = document.getElementById("practice-word");
 const practiceAnswer = document.getElementById("practice-answer");
+const practiceIcon = document.getElementById("practice-icon");
 const revealAnswerButton = document.getElementById("reveal-answer");
 const nextCardButton = document.getElementById("next-card");
 const knewItButton = document.getElementById("knew-it");
@@ -11,6 +12,29 @@ const knewItCount = document.getElementById("knew-it-count");
 const wordPairs = loadWordPairs();
 let practiceIndex = 0;
 let knewItTotal = 0;
+
+// Chooses a simple pictogram for an English word.
+function getWordIcon(englishWord) {
+  const word = englishWord.toLowerCase();
+
+  if (word === "horse") {
+    return "🐴";
+  }
+  if (word === "apple") {
+    return "🍎";
+  }
+  if (word === "dog") {
+    return "🐕";
+  }
+  if (word === "school") {
+    return "🏫";
+  }
+  if (word === "cabbage") {
+    return "🥬";
+  }
+
+  return "🃏";
+}
 
 // Loads saved word pairs from browser storage.
 function loadWordPairs() {
@@ -35,9 +59,13 @@ function renderWordPairs() {
   for (let index = 0; index < wordPairs.length; index++) {
     const pair = wordPairs[index];
     const listItem = document.createElement("li");
+    const pairIcon = document.createElement("span");
     const pairText = document.createElement("span");
     const deleteButton = document.createElement("button");
 
+    pairIcon.textContent = getWordIcon(pair.english);
+    pairIcon.className = "pair-icon";
+    pairIcon.setAttribute("aria-label", "Piktogramm");
     pairText.textContent = pair.english + " - " + pair.german;
     deleteButton.textContent = "Delete";
     deleteButton.type = "button";
@@ -46,6 +74,7 @@ function renderWordPairs() {
       deleteWordPair(index);
     });
 
+    listItem.appendChild(pairIcon);
     listItem.appendChild(pairText);
     listItem.appendChild(deleteButton);
     wordPairList.appendChild(listItem);
@@ -72,6 +101,7 @@ function showPracticeCard() {
 
   if (wordPairs.length === 0) {
     practiceWord.textContent = "Keine Karte vorhanden.";
+    practiceIcon.textContent = "🃏";
     revealAnswerButton.disabled = true;
     nextCardButton.disabled = true;
     knewItButton.disabled = true;
@@ -79,6 +109,7 @@ function showPracticeCard() {
   }
 
   practiceWord.textContent = wordPairs[practiceIndex].english;
+  practiceIcon.textContent = getWordIcon(wordPairs[practiceIndex].english);
   revealAnswerButton.disabled = false;
   nextCardButton.disabled = wordPairs.length < 2;
   knewItButton.disabled = false;

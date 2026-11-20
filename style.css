@@ -115,6 +115,11 @@ button:focus-visible {
   padding: 0.5rem 1rem;
 }
 
+.pair-icon {
+  flex-shrink: 0;
+  font-size: 1.5rem;
+}
+
 .practice-mode {
   margin-top: 2rem;
   border-top: 2px solid #fce1ee;
