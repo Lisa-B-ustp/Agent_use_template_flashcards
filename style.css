@@ -78,3 +78,29 @@ button:focus-visible {
   outline: 3px solid #f3a8ca;
   outline-offset: 3px;
 }
+
+.word-pair-list {
+  margin-top: 2rem;
+  border-top: 2px solid #fce1ee;
+  padding-top: 1rem;
+}
+
+.word-pair-list h2 {
+  color: #b83280;
+  font-size: 1.25rem;
+  text-align: center;
+}
+
+.word-pair-list ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.word-pair-list li {
+  margin-top: 0.6rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #f3c4d8;
+  border-radius: 12px;
+  background-color: #fff8fb;
+}
