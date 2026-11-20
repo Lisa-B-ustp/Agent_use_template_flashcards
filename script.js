@@ -5,8 +5,12 @@ const wordPairList = document.getElementById("word-pairs");
 const practiceWord = document.getElementById("practice-word");
 const practiceAnswer = document.getElementById("practice-answer");
 const revealAnswerButton = document.getElementById("reveal-answer");
+const nextCardButton = document.getElementById("next-card");
+const knewItButton = document.getElementById("knew-it");
+const knewItCount = document.getElementById("knew-it-count");
 const wordPairs = loadWordPairs();
 let practiceIndex = 0;
+let knewItTotal = 0;
 
 // Loads saved word pairs from browser storage.
 function loadWordPairs() {
@@ -69,11 +73,15 @@ function showPracticeCard() {
   if (wordPairs.length === 0) {
     practiceWord.textContent = "Keine Karte vorhanden.";
     revealAnswerButton.disabled = true;
+    nextCardButton.disabled = true;
+    knewItButton.disabled = true;
     return;
   }
 
   practiceWord.textContent = wordPairs[practiceIndex].english;
   revealAnswerButton.disabled = false;
+  nextCardButton.disabled = wordPairs.length < 2;
+  knewItButton.disabled = false;
 }
 
 // Toggles the German translation for the current card.
@@ -89,6 +97,32 @@ function revealPracticeAnswer() {
     practiceAnswer.textContent = "";
     revealAnswerButton.textContent = "Antwort zeigen";
   }
+}
+
+// Shows a random card that is different from the current card.
+function showNextCard() {
+  if (wordPairs.length < 2) {
+    return;
+  }
+
+  let nextIndex = practiceIndex;
+
+  while (nextIndex === practiceIndex) {
+    nextIndex = Math.floor(Math.random() * wordPairs.length);
+  }
+
+  practiceIndex = nextIndex;
+  showPracticeCard();
+}
+
+// Counts one card as known for this session.
+function countKnownCard() {
+  if (wordPairs.length === 0) {
+    return;
+  }
+
+  knewItTotal = knewItTotal + 1;
+  knewItCount.textContent = "Gewusst: " + knewItTotal;
 }
 
 // Adds a valid word pair to memory and clears the form.
@@ -117,5 +151,7 @@ function handleWordPairSubmit(event) {
 
 pairForm.addEventListener("submit", handleWordPairSubmit);
 revealAnswerButton.addEventListener("click", revealPracticeAnswer);
+nextCardButton.addEventListener("click", showNextCard);
+knewItButton.addEventListener("click", countKnownCard);
 renderWordPairs();
 showPracticeCard();
