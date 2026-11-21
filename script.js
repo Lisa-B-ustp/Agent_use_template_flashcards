@@ -22,6 +22,7 @@ function saveDogProfile(event) {
     };
 
     localStorage.setItem("dogProfile", JSON.stringify(profile));
+    syncMigratedProfile();
     showDogProfile(profile);
 }
 
@@ -43,6 +44,68 @@ function loadDogProfile() {
     document.getElementById("dog-breed").value = profile.breed;
     document.getElementById("dog-age").value = profile.age;
     showDogProfile(profile);
+}
+
+// Lädt alte gespeicherte Daten oder gibt ein leeres Objekt zurück.
+function loadLegacyData(key) {
+    const savedData = localStorage.getItem(key);
+    if (savedData === null) {
+        return {};
+    }
+    return JSON.parse(savedData);
+}
+
+// Prüft, ob noch Daten aus der bisherigen Einzelprofil-Version vorhanden sind.
+function hasLegacyData() {
+    return localStorage.getItem("dogProfile") !== null
+        || localStorage.getItem("exerciseRecords") !== null
+        || localStorage.getItem("weightRecords") !== null;
+}
+
+// Fasst das bisherige Profil und seine Messwerte zu einem Profil zusammen.
+function createMigratedProfile() {
+    const savedProfile = loadLegacyData("dogProfile");
+    return {
+        id: "dog-1",
+        name: savedProfile.name || "Mein Hund",
+        breed: savedProfile.breed || "",
+        age: savedProfile.age || "",
+        exerciseRecords: loadLegacyData("exerciseRecords"),
+        weightRecords: loadLegacyData("weightRecords")
+    };
+}
+
+// Übernimmt vorhandene Einzelprofil-Daten einmalig in die neue Struktur.
+function migrateExistingData() {
+    if (localStorage.getItem("dogProfiles") !== null || !hasLegacyData()) {
+        return;
+    }
+
+    const firstProfile = createMigratedProfile();
+    localStorage.setItem("dogProfiles", JSON.stringify([firstProfile]));
+    localStorage.setItem("activeDogProfileId", firstProfile.id);
+}
+
+// Hält die übernommene Kopie aktuell, solange noch die alten Formulare arbeiten.
+function syncMigratedProfile() {
+    const savedProfiles = localStorage.getItem("dogProfiles");
+    if (savedProfiles === null) {
+        return;
+    }
+
+    const profiles = JSON.parse(savedProfiles);
+    if (profiles.length !== 1) {
+        return;
+    }
+
+    const profile = profiles[0];
+    const savedDogProfile = loadLegacyData("dogProfile");
+    profile.name = savedDogProfile.name || "Mein Hund";
+    profile.breed = savedDogProfile.breed || "";
+    profile.age = savedDogProfile.age || "";
+    profile.exerciseRecords = loadLegacyData("exerciseRecords");
+    profile.weightRecords = loadLegacyData("weightRecords");
+    localStorage.setItem("dogProfiles", JSON.stringify(profiles));
 }
 
 // Gibt das heutige Datum im Format des Datumsfeldes zurück.
@@ -72,6 +135,7 @@ function saveExercise(event) {
     const minutes = Number(document.getElementById("exercise-time").value);
     exerciseRecords[date] = minutes;
     localStorage.setItem("exerciseRecords", JSON.stringify(exerciseRecords));
+    syncMigratedProfile();
 
     document.getElementById("exercise-save-message").textContent =
         "Bewegungszeit für " + date + " gespeichert.";
@@ -99,6 +163,7 @@ function saveWeight(event) {
     const weight = Number(document.getElementById("weight-value").value);
     weightRecords[date] = weight;
     localStorage.setItem("weightRecords", JSON.stringify(weightRecords));
+    syncMigratedProfile();
 
     document.getElementById("weight-save-message").textContent =
         "Gewicht für " + date + " gespeichert.";
@@ -286,6 +351,7 @@ function drawExerciseChart() {
     chart.appendChild(chartBars);
 }
 
+migrateExistingData();
 dogProfileForm.addEventListener("submit", saveDogProfile);
 loadDogProfile();
 exerciseForm.addEventListener("submit", saveExercise);

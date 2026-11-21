@@ -23,10 +23,14 @@
   - Auswahlfeld für Hundprofile und Schaltfläche für ein neues Profil
 - Mehrere Profile – Schritt 2: Steuerelemente gestaltet
   - Auswahlfeld und Schaltfläche an das bestehende Grün-Orange-Design angepasst
+- Mehrere Profile – Schritt 3: Bestehende Datenübernahme ergänzt
+  - Bisheriges Profil sowie Bewegungs- und Gewichtsmessungen werden einmalig zusammengeführt
+  - Alte Speicherwerte bleiben zur Sicherheit erhalten
+  - Änderungen werden bis zur Umstellung der Formulare mit der übernommenen Kopie synchronisiert
 
 ## Next
 
-- Mehrere Profile – Schritt 3: Vorhandene Profildaten und Messwerte übernehmen
+- Mehrere Profile – Schritt 4: Profile erstellen und zwischen ihnen wechseln
 
 ## Decisions & notes
 
@@ -38,6 +42,7 @@
 - Die Gewichtslinie verwendet eine eigene Skala anhand der gespeicherten Messwerte
 - Der manuelle Browser-Test nach Ergänzung der Gewichtslinie wurde vom Nutzer als erfolgreich bestätigt
 - Die Steuerelemente für mehrere Profile sind gestaltet, aber noch nicht funktionsfähig
+- Die neue Profilspeicherung ist vorbereitet; Auswahl und Wechsel sind noch nicht angeschlossen
 - Automatische Prüfungen wurden nicht ausgeführt
 
 ## Known problems
