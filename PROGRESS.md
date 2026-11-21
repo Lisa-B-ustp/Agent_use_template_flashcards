@@ -15,14 +15,18 @@
   - Eingabefelder und Button formatiert
 - CSS für Bewegungserfassung und 30-Tage-Übersicht gestaltet
   - Kartenlayout, Felder, Buttons und Grafikplatzhalter formatiert
+- JavaScript für das Hundprofil umgesetzt
+  - Profil wird geprüft, gespeichert und auf der Seite angezeigt
+  - Gespeichertes Profil wird beim erneuten Öffnen wieder geladen
 
 ## Next
 
-- JavaScript für das Hundprofil: Eingaben speichern und anzeigen
+- JavaScript für die tägliche Bewegungserfassung
 
 ## Decisions & notes
 
-- F1 und F2 sind als HTML angelegt, werden aber erst später mit JavaScript funktionsfähig
+- F1 ist als HTML, CSS und JavaScript umgesetzt
+- F2 ist als HTML angelegt und gestaltet, die JavaScript-Funktion folgt noch
 - F3 enthält bisher einen zugänglichen Platzhalter; die dynamische Grafik folgt mit JavaScript
 - Alle drei Bereiche haben jetzt eine CSS-Grundgestaltung
 
