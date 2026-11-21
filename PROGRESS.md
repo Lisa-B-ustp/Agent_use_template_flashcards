@@ -18,15 +18,19 @@
 - JavaScript für das Hundprofil umgesetzt
   - Profil wird geprüft, gespeichert und auf der Seite angezeigt
   - Gespeichertes Profil wird beim erneuten Öffnen wieder geladen
+- JavaScript für die tägliche Bewegungserfassung umgesetzt
+  - Bewegungszeit wird pro Datum im Browser gespeichert
+  - Die heutige Bewegungszeit wird angezeigt
 
 ## Next
 
-- JavaScript für die tägliche Bewegungserfassung
+- JavaScript für die 30-Tage-Grafik
 
 ## Decisions & notes
 
 - F1 ist als HTML, CSS und JavaScript umgesetzt
-- F2 ist als HTML angelegt und gestaltet, die JavaScript-Funktion folgt noch
+- F2 ist als HTML, CSS und JavaScript umgesetzt
+- Pro Datum wird ein Tagesgesamtwert gespeichert; erneutes Speichern ersetzt den bisherigen Wert
 - F3 enthält bisher einen zugänglichen Platzhalter; die dynamische Grafik folgt mit JavaScript
 - Alle drei Bereiche haben jetzt eine CSS-Grundgestaltung
 
