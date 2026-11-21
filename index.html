@@ -11,6 +11,14 @@
         <section class="dog-profile">
             <h1>Mein Hund</h1>
 
+            <div class="profile-controls">
+                <label for="dog-profile-select">Hundprofil auswählen</label>
+                <select id="dog-profile-select" name="dog-profile">
+                    <option value="">Bitte Profil auswählen</option>
+                </select>
+                <button type="button" id="new-dog-profile-button">Neues Profil erstellen</button>
+            </div>
+
             <form id="dog-profile-form">
                 <label for="dog-name">Name</label>
                 <input type="text" id="dog-name" name="dog-name" placeholder="Name des Hundes" required>

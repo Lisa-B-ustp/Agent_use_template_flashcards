@@ -19,10 +19,12 @@
   - Kartenlayout, Felder, Buttons sowie Balken- und Liniengrafik formatiert
 - Manueller Browser-Test erfolgreich abgeschlossen
   - Profil, Bewegungserfassung und Gewichtslinie überprüft
+- Mehrere Profile – Schritt 1: HTML-Steuerelemente ergänzt
+  - Auswahlfeld für Hundprofile und Schaltfläche für ein neues Profil
 
 ## Next
 
-- Keine offenen Schritte
+- Mehrere Profile – Schritt 2: Profilauswahl und Schaltfläche gestalten
 
 ## Decisions & notes
 
@@ -33,6 +35,7 @@
 - Die Balkenhöhe wird relativ zum höchsten Wert der letzten 30 Tage berechnet
 - Die Gewichtslinie verwendet eine eigene Skala anhand der gespeicherten Messwerte
 - Der manuelle Browser-Test nach Ergänzung der Gewichtslinie wurde vom Nutzer als erfolgreich bestätigt
+- Die Steuerelemente für mehrere Profile sind bisher nur HTML und noch nicht funktionsfähig
 - Automatische Prüfungen wurden nicht ausgeführt
 
 ## Known problems
