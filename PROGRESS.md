@@ -4,34 +4,28 @@
 
 - F1: HTML-Struktur für das Hundprofil erstellt
   - Eingabefelder für Name, Gewicht, Rasse und Alter
-  - Button zum späteren Speichern des Profils
+  - Profil wird im Browser gespeichert und nach erneutem Laden wieder angezeigt
 - F2: HTML für die tägliche Bewegungserfassung erstellt
   - Felder für Datum und Bewegungszeit in Minuten
-  - Anzeige für die heutige Bewegungszeit
+  - Werte werden pro Datum gespeichert; die heutige Bewegungszeit wird angezeigt
 - F3: HTML-Bereich für die 30-Tage-Übersicht erstellt
-  - Platzhalter für die spätere Balkengrafik
+  - Balkengrafik zeigt die Bewegungszeit der letzten 30 Tage
+  - Datum und Minuten werden beim Überfahren eines Balkens angezeigt
 - CSS-Grundgestaltung und Hundprofil gestaltet
   - Grün-oranges Farbschema und Profilkarte
   - Eingabefelder und Button formatiert
 - CSS für Bewegungserfassung und 30-Tage-Übersicht gestaltet
-  - Kartenlayout, Felder, Buttons und Grafikplatzhalter formatiert
-- JavaScript für das Hundprofil umgesetzt
-  - Profil wird geprüft, gespeichert und auf der Seite angezeigt
-  - Gespeichertes Profil wird beim erneuten Öffnen wieder geladen
-- JavaScript für die tägliche Bewegungserfassung umgesetzt
-  - Bewegungszeit wird pro Datum im Browser gespeichert
-  - Die heutige Bewegungszeit wird angezeigt
+  - Kartenlayout, Felder, Buttons und Balkengrafik formatiert
 
 ## Next
 
-- JavaScript für die 30-Tage-Grafik
+- Website im Browser prüfen: Profil speichern, Bewegung erfassen und 30-Tage-Grafik kontrollieren
 
 ## Decisions & notes
 
-- F1 ist als HTML, CSS und JavaScript umgesetzt
-- F2 ist als HTML, CSS und JavaScript umgesetzt
+- Profil und Bewegungswerte werden im Browser gespeichert
 - Pro Datum wird ein Tagesgesamtwert gespeichert; erneutes Speichern ersetzt den bisherigen Wert
-- F3 enthält bisher einen zugänglichen Platzhalter; die dynamische Grafik folgt mit JavaScript
-- Alle drei Bereiche haben jetzt eine CSS-Grundgestaltung
+- Die Balkenhöhe wird relativ zum höchsten Wert der letzten 30 Tage berechnet
+- Für die Änderungen wurden keine automatischen Prüfungen ausgeführt; der Browser-Test steht noch aus
 
 ## Known problems
