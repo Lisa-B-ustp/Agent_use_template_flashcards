@@ -21,10 +21,12 @@
   - Profil, Bewegungserfassung und Gewichtslinie überprüft
 - Mehrere Profile – Schritt 1: HTML-Steuerelemente ergänzt
   - Auswahlfeld für Hundprofile und Schaltfläche für ein neues Profil
+- Mehrere Profile – Schritt 2: Steuerelemente gestaltet
+  - Auswahlfeld und Schaltfläche an das bestehende Grün-Orange-Design angepasst
 
 ## Next
 
-- Mehrere Profile – Schritt 2: Profilauswahl und Schaltfläche gestalten
+- Mehrere Profile – Schritt 3: Vorhandene Profildaten und Messwerte übernehmen
 
 ## Decisions & notes
 
@@ -35,7 +37,7 @@
 - Die Balkenhöhe wird relativ zum höchsten Wert der letzten 30 Tage berechnet
 - Die Gewichtslinie verwendet eine eigene Skala anhand der gespeicherten Messwerte
 - Der manuelle Browser-Test nach Ergänzung der Gewichtslinie wurde vom Nutzer als erfolgreich bestätigt
-- Die Steuerelemente für mehrere Profile sind bisher nur HTML und noch nicht funktionsfähig
+- Die Steuerelemente für mehrere Profile sind gestaltet, aber noch nicht funktionsfähig
 - Automatische Prüfungen wurden nicht ausgeführt
 
 ## Known problems

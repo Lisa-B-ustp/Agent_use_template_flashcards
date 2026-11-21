@@ -34,6 +34,52 @@ main {
     color: #327344;
 }
 
+.profile-controls {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #d6e8cd;
+}
+
+.profile-controls label {
+    font-weight: bold;
+}
+
+#dog-profile-select {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #aebfac;
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: #26352a;
+    font: inherit;
+}
+
+#dog-profile-select:focus {
+    outline: 2px solid #75a95f;
+}
+
+#new-dog-profile-button {
+    padding: 12px;
+    border: 0;
+    border-radius: 10px;
+    background-color: #ef963e;
+    color: #ffffff;
+    font: inherit;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#new-dog-profile-button:hover {
+    background-color: #d97b27;
+}
+
+#new-dog-profile-button:focus {
+    outline: 2px solid #75a95f;
+}
+
 .exercise-tracking h2,
 .exercise-overview h2 {
     margin-top: 0;
