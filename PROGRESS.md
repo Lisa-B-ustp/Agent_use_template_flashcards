@@ -3,7 +3,7 @@
 ## Done
 
 - F1: HTML-Struktur für das Hundprofil erstellt
-  - Eingabefelder für Name, Gewicht, Rasse und Alter
+  - Eingabefelder für Name, Rasse und Alter
   - Profil wird im Browser gespeichert und nach erneutem Laden wieder angezeigt
 - F2: HTML für die tägliche Bewegungserfassung erstellt
   - Felder für Datum und Bewegungszeit in Minuten
@@ -29,9 +29,11 @@
 - Profil und Bewegungswerte werden im Browser gespeichert
 - Pro Datum wird ein Tagesgesamtwert gespeichert; erneutes Speichern ersetzt den bisherigen Wert
 - Auch Gewicht wird pro Datum gespeichert; erneutes Speichern ersetzt den bisherigen Messwert
+- Das Profil enthält kein Gewichtsfeld; Gewichtsmessungen werden separat mit Datum erfasst
 - Die Balkenhöhe wird relativ zum höchsten Wert der letzten 30 Tage berechnet
 - Die Gewichtslinie verwendet eine eigene Skala anhand der gespeicherten Messwerte
 - Der bisherige manuelle Browser-Test wurde vor dem Hinzufügen der Gewichtslinie erfolgreich abgeschlossen
+- Profiländerung und Gewichtslinie müssen noch im Browser geprüft werden
 - Automatische Prüfungen wurden nicht ausgeführt
 
 ## Known problems

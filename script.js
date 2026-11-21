@@ -8,7 +8,7 @@ let weightRecords = {};
 function showDogProfile(profile) {
     const summary = document.getElementById("dog-profile-summary");
     summary.textContent = profile.name + ": " + profile.breed + ", "
-        + profile.weight + " kg, " + profile.age + " Jahre alt.";
+        + profile.age + " Jahre alt.";
 }
 
 // Speichert die Formularwerte im Browser.
@@ -17,7 +17,6 @@ function saveDogProfile(event) {
 
     const profile = {
         name: document.getElementById("dog-name").value.trim(),
-        weight: document.getElementById("dog-weight").value,
         breed: document.getElementById("dog-breed").value.trim(),
         age: document.getElementById("dog-age").value
     };
@@ -33,9 +32,14 @@ function loadDogProfile() {
         return;
     }
 
-    const profile = JSON.parse(savedProfile);
+    const savedDogProfile = JSON.parse(savedProfile);
+    const profile = {
+        name: savedDogProfile.name,
+        breed: savedDogProfile.breed,
+        age: savedDogProfile.age
+    };
+    localStorage.setItem("dogProfile", JSON.stringify(profile));
     document.getElementById("dog-name").value = profile.name;
-    document.getElementById("dog-weight").value = profile.weight;
     document.getElementById("dog-breed").value = profile.breed;
     document.getElementById("dog-age").value = profile.age;
     showDogProfile(profile);
