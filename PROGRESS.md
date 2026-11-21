@@ -10,14 +10,18 @@
   - Anzeige für die heutige Bewegungszeit
 - F3: HTML-Bereich für die 30-Tage-Übersicht erstellt
   - Platzhalter für die spätere Balkengrafik
+- CSS-Grundgestaltung und Hundprofil gestaltet
+  - Grün-oranges Farbschema und Profilkarte
+  - Eingabefelder und Button formatiert
 
 ## Next
 
-- JavaScript für Profil, Bewegungserfassung und 30-Tage-Grafik
+- CSS für Bewegungserfassung und 30-Tage-Übersicht
 
 ## Decisions & notes
 
 - F1 und F2 sind als HTML angelegt, werden aber erst später mit JavaScript funktionsfähig
 - F3 enthält bisher einen zugänglichen Platzhalter; die dynamische Grafik folgt mit JavaScript
+- Der CSS-Schritt ist bisher nur für die Grundgestaltung und das Hundprofil umgesetzt
 
 ## Known problems
