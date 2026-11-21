@@ -8,13 +8,16 @@
 - F2: HTML für die tägliche Bewegungserfassung erstellt
   - Felder für Datum und Bewegungszeit in Minuten
   - Anzeige für die heutige Bewegungszeit
+- F3: HTML-Bereich für die 30-Tage-Übersicht erstellt
+  - Platzhalter für die spätere Balkengrafik
 
 ## Next
 
-- F3: HTML-Bereich für die 30-Tage-Übersicht
+- JavaScript für Profil, Bewegungserfassung und 30-Tage-Grafik
 
 ## Decisions & notes
 
 - F1 und F2 sind als HTML angelegt, werden aber erst später mit JavaScript funktionsfähig
+- F3 enthält bisher einen zugänglichen Platzhalter; die dynamische Grafik folgt mit JavaScript
 
 ## Known problems
