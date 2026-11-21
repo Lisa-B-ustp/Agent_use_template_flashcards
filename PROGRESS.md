@@ -16,16 +16,21 @@
   - Eingabefelder und Button formatiert
 - CSS für Bewegungserfassung und 30-Tage-Übersicht gestaltet
   - Kartenlayout, Felder, Buttons und Balkengrafik formatiert
+- Manueller Browser-Test erfolgreich abgeschlossen
+  - Profil, Bewegungserfassung und 30-Tage-Grafik überprüft
 
 ## Next
 
-- Website im Browser prüfen: Profil speichern, Bewegung erfassen und 30-Tage-Grafik kontrollieren
+- Keine offenen Schritte
 
 ## Decisions & notes
 
 - Profil und Bewegungswerte werden im Browser gespeichert
 - Pro Datum wird ein Tagesgesamtwert gespeichert; erneutes Speichern ersetzt den bisherigen Wert
 - Die Balkenhöhe wird relativ zum höchsten Wert der letzten 30 Tage berechnet
-- Für die Änderungen wurden keine automatischen Prüfungen ausgeführt; der Browser-Test steht noch aus
+- Der manuelle Browser-Test wurde vom Nutzer als erfolgreich bestätigt
+- Automatische Prüfungen wurden nicht ausgeführt
 
 ## Known problems
+
+- Keine bekannt
