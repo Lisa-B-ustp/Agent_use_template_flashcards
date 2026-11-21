@@ -13,19 +13,21 @@
 
             <form id="dog-profile-form">
                 <label for="dog-name">Name</label>
-                <input type="text" id="dog-name" name="dog-name" placeholder="Name des Hundes">
+                <input type="text" id="dog-name" name="dog-name" placeholder="Name des Hundes" required>
 
                 <label for="dog-weight">Gewicht in kg</label>
-                <input type="number" id="dog-weight" name="dog-weight" min="1" placeholder="z. B. 12">
+                <input type="number" id="dog-weight" name="dog-weight" min="1" placeholder="z. B. 12" required>
 
                 <label for="dog-breed">Rasse</label>
-                <input type="text" id="dog-breed" name="dog-breed" placeholder="Rasse des Hundes">
+                <input type="text" id="dog-breed" name="dog-breed" placeholder="Rasse des Hundes" required>
 
                 <label for="dog-age">Alter in Jahren</label>
-                <input type="number" id="dog-age" name="dog-age" min="0" placeholder="z. B. 4">
+                <input type="number" id="dog-age" name="dog-age" min="0" placeholder="z. B. 4" required>
 
                 <button type="submit">Profil speichern</button>
             </form>
+
+            <p id="dog-profile-summary" aria-live="polite">Noch kein Profil gespeichert.</p>
         </section>
 
         <section class="exercise-tracking">
@@ -55,5 +57,6 @@
             </figure>
         </section>
     </main>
+    <script src="script.js"></script>
 </body>
 </html>
