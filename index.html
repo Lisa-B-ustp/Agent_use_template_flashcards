@@ -27,6 +27,22 @@
                 <button type="submit">Profil speichern</button>
             </form>
         </section>
+
+        <section class="exercise-tracking">
+            <h2>Tägliche Bewegung</h2>
+
+            <form id="exercise-form">
+                <label for="exercise-date">Datum</label>
+                <input type="date" id="exercise-date" name="exercise-date">
+
+                <label for="exercise-time">Bewegungszeit in Minuten</label>
+                <input type="number" id="exercise-time" name="exercise-time" min="0" placeholder="z. B. 30">
+
+                <button type="submit">Bewegung speichern</button>
+            </form>
+
+            <p>Heute: <strong id="today-exercise">0 Minuten</strong></p>
+        </section>
     </main>
 </body>
 </html>
