@@ -50,13 +50,23 @@ main {
     gap: 10px;
 }
 
+#weight-form {
+    display: grid;
+    gap: 10px;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid #d6e8cd;
+}
+
 #dog-profile-form label,
-#exercise-form label {
+#exercise-form label,
+#weight-form label {
     font-weight: bold;
 }
 
 #dog-profile-form input,
-#exercise-form input {
+#exercise-form input,
+#weight-form input {
     box-sizing: border-box;
     width: 100%;
     padding: 11px;
@@ -66,12 +76,14 @@ main {
 }
 
 #dog-profile-form input:focus,
-#exercise-form input:focus {
+#exercise-form input:focus,
+#weight-form input:focus {
     outline: 2px solid #75a95f;
 }
 
 #dog-profile-form button,
-#exercise-form button {
+#exercise-form button,
+#weight-form button {
     margin-top: 8px;
     padding: 12px;
     border: 0;
@@ -84,7 +96,8 @@ main {
 }
 
 #dog-profile-form button:hover,
-#exercise-form button:hover {
+#exercise-form button:hover,
+#weight-form button:hover {
     background-color: #d97b27;
 }
 
@@ -101,6 +114,39 @@ main {
     font-weight: bold;
 }
 
+.chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin: 0 0 10px;
+    padding: 0;
+    list-style: none;
+    font-size: 0.9rem;
+}
+
+.chart-legend li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.legend-exercise,
+.legend-weight {
+    display: inline-block;
+    width: 14px;
+    height: 10px;
+}
+
+.legend-exercise {
+    border-radius: 2px;
+    background-color: #75a95f;
+}
+
+.legend-weight {
+    height: 3px;
+    background-color: #e87524;
+}
+
 #exercise-chart {
     padding: 12px;
     border: 2px dashed #aebfac;
@@ -110,11 +156,36 @@ main {
 }
 
 .chart-bars {
+    position: relative;
     display: flex;
     height: 150px;
     align-items: flex-end;
     gap: 3px;
     border-bottom: 1px solid #aebfac;
+}
+
+.weight-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 14px);
+    overflow: visible;
+    pointer-events: none;
+}
+
+.weight-line polyline {
+    fill: none;
+    stroke: #e87524;
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+}
+
+.weight-line circle {
+    fill: #e87524;
+    stroke: #ffffff;
+    stroke-width: 1.5;
+    pointer-events: all;
 }
 
 .chart-day {

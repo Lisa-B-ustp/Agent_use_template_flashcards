@@ -1,6 +1,8 @@
 const dogProfileForm = document.getElementById("dog-profile-form");
 const exerciseForm = document.getElementById("exercise-form");
+const weightForm = document.getElementById("weight-form");
 let exerciseRecords = {};
+let weightRecords = {};
 
 // Zeigt die gespeicherten Angaben unter dem Formular an.
 function showDogProfile(profile) {
@@ -85,6 +87,31 @@ function loadExerciseRecords() {
     drawExerciseChart();
 }
 
+// Speichert das Gewicht für das ausgewählte Datum.
+function saveWeight(event) {
+    event.preventDefault();
+
+    const date = document.getElementById("weight-date").value;
+    const weight = Number(document.getElementById("weight-value").value);
+    weightRecords[date] = weight;
+    localStorage.setItem("weightRecords", JSON.stringify(weightRecords));
+
+    document.getElementById("weight-save-message").textContent =
+        "Gewicht für " + date + " gespeichert.";
+    drawExerciseChart();
+}
+
+// Lädt gespeicherte Gewichte und setzt das Datumsfeld auf heute.
+function loadWeightRecords() {
+    const savedWeights = localStorage.getItem("weightRecords");
+    if (savedWeights !== null) {
+        weightRecords = JSON.parse(savedWeights);
+    }
+
+    document.getElementById("weight-date").value = getLocalDate();
+    drawExerciseChart();
+}
+
 // Fügt einen Balken mit Datum und Bewegungszeit zur Grafik hinzu.
 function addChartBar(chartBars, date, minutes, maximumMinutes) {
     const dayColumn = document.createElement("div");
@@ -134,6 +161,115 @@ function addLast30Days(chartBars, maximumMinutes) {
     }
 }
 
+// Sammelt die Gewichtsmessungen innerhalb der letzten 30 Tage.
+function getWeightMeasurements() {
+    const measurements = [];
+    for (let dayOffset = -29; dayOffset <= 0; dayOffset++) {
+        const date = new Date();
+        date.setDate(date.getDate() + dayOffset);
+        const weight = weightRecords[formatLocalDate(date)];
+        if (weight !== undefined) {
+            measurements.push({
+                date: date,
+                dayIndex: dayOffset + 29,
+                weight: Number(weight)
+            });
+        }
+    }
+    return measurements;
+}
+
+// Findet den kleinsten und größten erfassten Gewichtswert.
+function findWeightRange(measurements) {
+    let minimum = measurements[0].weight;
+    let maximum = measurements[0].weight;
+    for (let index = 1; index < measurements.length; index++) {
+        const weight = measurements[index].weight;
+        if (weight < minimum) {
+            minimum = weight;
+        }
+        if (weight > maximum) {
+            maximum = weight;
+        }
+    }
+    return { minimum: minimum, maximum: maximum };
+}
+
+// Berechnet die Höhe eines Gewichtspunktes auf der eigenen Skala.
+function getWeightPointY(weight, weightRange) {
+    if (weightRange.maximum === weightRange.minimum) {
+        return 50;
+    }
+    return 90 - (weight - weightRange.minimum)
+        / (weightRange.maximum - weightRange.minimum) * 80;
+}
+
+// Berechnet die Positionen aller Gewichtsmessungen in der Grafik.
+function getWeightLinePoints(measurements) {
+    const weightRange = findWeightRange(measurements);
+    const points = [];
+    for (let index = 0; index < measurements.length; index++) {
+        const measurement = measurements[index];
+        points.push({
+            x: measurement.dayIndex * 10 + 5,
+            y: getWeightPointY(measurement.weight, weightRange),
+            date: measurement.date,
+            weight: measurement.weight
+        });
+    }
+    return points;
+}
+
+// Erstellt ein SVG-Element für die Gewichtslinie.
+function createSvgElement(elementName) {
+    return document.createElementNS("http://www.w3.org/2000/svg", elementName);
+}
+
+// Fügt einen beschrifteten Gewichtspunkt zur Linie hinzu.
+function addWeightPoint(weightLine, point) {
+    const circle = createSvgElement("circle");
+    const title = createSvgElement("title");
+    const dateLabel = point.date.toLocaleDateString("de-DE");
+    circle.setAttribute("cx", point.x);
+    circle.setAttribute("cy", point.y);
+    circle.setAttribute("r", "4");
+    circle.setAttribute("aria-label", dateLabel + ": " + point.weight + " kg");
+    title.textContent = dateLabel + ": " + point.weight + " kg";
+    circle.appendChild(title);
+    weightLine.appendChild(circle);
+}
+
+// Erstellt die Linie und ihre beschrifteten Messpunkte.
+function createWeightLine(points) {
+    const weightLine = createSvgElement("svg");
+    const polyline = createSvgElement("polyline");
+    const linePoints = [];
+    weightLine.setAttribute("viewBox", "0 0 300 100");
+    weightLine.setAttribute("class", "weight-line");
+    weightLine.setAttribute("role", "img");
+    weightLine.setAttribute("aria-label", "Gewicht in Kilogramm auf eigener Skala");
+    weightLine.setAttribute("preserveAspectRatio", "none");
+    for (let index = 0; index < points.length; index++) {
+        linePoints.push(points[index].x + "," + points[index].y);
+    }
+    polyline.setAttribute("points", linePoints.join(" "));
+    weightLine.appendChild(polyline);
+    for (let index = 0; index < points.length; index++) {
+        addWeightPoint(weightLine, points[index]);
+    }
+    return weightLine;
+}
+
+// Zeichnet die gespeicherten Gewichte als Linie über die Balken.
+function drawWeightLine(chartBars) {
+    const measurements = getWeightMeasurements();
+    if (measurements.length === 0) {
+        return;
+    }
+    const points = getWeightLinePoints(measurements);
+    chartBars.appendChild(createWeightLine(points));
+}
+
 // Zeichnet die Bewegungswerte der letzten 30 Tage als Balken.
 function drawExerciseChart() {
     const chart = document.getElementById("exercise-chart");
@@ -142,6 +278,7 @@ function drawExerciseChart() {
     chart.textContent = "";
     chartBars.className = "chart-bars";
     addLast30Days(chartBars, findMaximumMinutes());
+    drawWeightLine(chartBars);
     chart.appendChild(chartBars);
 }
 
@@ -149,3 +286,5 @@ dogProfileForm.addEventListener("submit", saveDogProfile);
 loadDogProfile();
 exerciseForm.addEventListener("submit", saveExercise);
 loadExerciseRecords();
+weightForm.addEventListener("submit", saveWeight);
+loadWeightRecords();
