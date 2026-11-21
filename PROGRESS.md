@@ -18,11 +18,11 @@
 - CSS für Bewegungserfassung und 30-Tage-Übersicht gestaltet
   - Kartenlayout, Felder, Buttons sowie Balken- und Liniengrafik formatiert
 - Manueller Browser-Test erfolgreich abgeschlossen
-  - Profil, Bewegungserfassung und 30-Tage-Grafik überprüft
+  - Profil, Bewegungserfassung und Gewichtslinie überprüft
 
 ## Next
 
-- Gewichtserfassung und Gewichtslinie im Browser prüfen
+- Keine offenen Schritte
 
 ## Decisions & notes
 
@@ -32,8 +32,7 @@
 - Das Profil enthält kein Gewichtsfeld; Gewichtsmessungen werden separat mit Datum erfasst
 - Die Balkenhöhe wird relativ zum höchsten Wert der letzten 30 Tage berechnet
 - Die Gewichtslinie verwendet eine eigene Skala anhand der gespeicherten Messwerte
-- Der bisherige manuelle Browser-Test wurde vor dem Hinzufügen der Gewichtslinie erfolgreich abgeschlossen
-- Profiländerung und Gewichtslinie müssen noch im Browser geprüft werden
+- Der manuelle Browser-Test nach Ergänzung der Gewichtslinie wurde vom Nutzer als erfolgreich bestätigt
 - Automatische Prüfungen wurden nicht ausgeführt
 
 ## Known problems
