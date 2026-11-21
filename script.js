@@ -1,6 +1,11 @@
 const dogProfileForm = document.getElementById("dog-profile-form");
 const exerciseForm = document.getElementById("exercise-form");
 const weightForm = document.getElementById("weight-form");
+const dogProfileSelect = document.getElementById("dog-profile-select");
+const newDogProfileButton = document.getElementById("new-dog-profile-button");
+let dogProfiles = [];
+let activeDogProfileId = "";
+let creatingNewProfile = false;
 let exerciseRecords = {};
 let weightRecords = {};
 
@@ -11,39 +16,14 @@ function showDogProfile(profile) {
         + profile.age + " Jahre alt.";
 }
 
-// Speichert die Formularwerte im Browser.
-function saveDogProfile(event) {
-    event.preventDefault();
-
-    const profile = {
-        name: document.getElementById("dog-name").value.trim(),
-        breed: document.getElementById("dog-breed").value.trim(),
-        age: document.getElementById("dog-age").value
-    };
-
-    localStorage.setItem("dogProfile", JSON.stringify(profile));
-    syncMigratedProfile();
-    showDogProfile(profile);
-}
-
-// Lädt ein bereits gespeichertes Profil beim Öffnen der Seite.
-function loadDogProfile() {
-    const savedProfile = localStorage.getItem("dogProfile");
-    if (savedProfile === null) {
-        return;
+// Findet ein Profil anhand seiner eindeutigen Kennung.
+function findDogProfile(profileId) {
+    for (let index = 0; index < dogProfiles.length; index++) {
+        if (dogProfiles[index].id === profileId) {
+            return dogProfiles[index];
+        }
     }
-
-    const savedDogProfile = JSON.parse(savedProfile);
-    const profile = {
-        name: savedDogProfile.name,
-        breed: savedDogProfile.breed,
-        age: savedDogProfile.age
-    };
-    localStorage.setItem("dogProfile", JSON.stringify(profile));
-    document.getElementById("dog-name").value = profile.name;
-    document.getElementById("dog-breed").value = profile.breed;
-    document.getElementById("dog-age").value = profile.age;
-    showDogProfile(profile);
+    return null;
 }
 
 // Lädt alte gespeicherte Daten oder gibt ein leeres Objekt zurück.
@@ -82,30 +62,170 @@ function migrateExistingData() {
     }
 
     const firstProfile = createMigratedProfile();
-    localStorage.setItem("dogProfiles", JSON.stringify([firstProfile]));
-    localStorage.setItem("activeDogProfileId", firstProfile.id);
+    dogProfiles.push(firstProfile);
+    activeDogProfileId = firstProfile.id;
+    saveDogProfiles();
 }
 
-// Hält die übernommene Kopie aktuell, solange noch die alten Formulare arbeiten.
-function syncMigratedProfile() {
+// Speichert alle Profile und das aktuell ausgewählte Profil.
+function saveDogProfiles() {
+    localStorage.setItem("dogProfiles", JSON.stringify(dogProfiles));
+    if (activeDogProfileId !== "") {
+        localStorage.setItem("activeDogProfileId", activeDogProfileId);
+    }
+}
+
+// Füllt die Profilauswahl mit den gespeicherten Hunden.
+function populateDogProfileSelect() {
+    dogProfileSelect.options.length = 1;
+    for (let index = 0; index < dogProfiles.length; index++) {
+        const option = document.createElement("option");
+        option.value = dogProfiles[index].id;
+        option.textContent = dogProfiles[index].name || "Neues Profil";
+        dogProfileSelect.appendChild(option);
+    }
+    dogProfileSelect.value = activeDogProfileId;
+}
+
+// Aktiviert oder deaktiviert die Messformulare.
+function setMeasurementFormsDisabled(isDisabled) {
+    for (let index = 0; index < exerciseForm.elements.length; index++) {
+        exerciseForm.elements[index].disabled = isDisabled;
+    }
+    for (let index = 0; index < weightForm.elements.length; index++) {
+        weightForm.elements[index].disabled = isDisabled;
+    }
+}
+
+// Bereitet die Seite für das Erstellen eines neuen Profils vor.
+function startNewProfile() {
+    creatingNewProfile = true;
+    activeDogProfileId = "";
+    dogProfileSelect.value = "";
+    dogProfileForm.reset();
+    exerciseForm.reset();
+    weightForm.reset();
+    exerciseRecords = {};
+    weightRecords = {};
+    setMeasurementFormsDisabled(true);
+    document.getElementById("dog-profile-summary").textContent =
+        "Neues Profil ausfüllen und speichern.";
+    document.getElementById("today-exercise").textContent = "0 Minuten";
+    document.getElementById("exercise-chart").textContent =
+        "Speichere zuerst das neue Profil, um Messwerte einzutragen.";
+}
+
+// Füllt das Profilformular mit den Angaben eines Hundes.
+function fillDogProfileForm(profile) {
+    document.getElementById("dog-name").value = profile.name;
+    document.getElementById("dog-breed").value = profile.breed;
+    document.getElementById("dog-age").value = profile.age;
+    showDogProfile(profile);
+}
+
+// Lädt Bewegungs- und Gewichtswerte des ausgewählten Hundes.
+function loadProfileMeasurements(profile) {
+    exerciseRecords = profile.exerciseRecords || {};
+    weightRecords = profile.weightRecords || {};
+    profile.exerciseRecords = exerciseRecords;
+    profile.weightRecords = weightRecords;
+    setMeasurementFormsDisabled(false);
+    document.getElementById("exercise-date").value = getLocalDate();
+    document.getElementById("weight-date").value = getLocalDate();
+    document.getElementById("exercise-time").value = "";
+    document.getElementById("weight-value").value = "";
+    document.getElementById("exercise-save-message").textContent = "";
+    document.getElementById("weight-save-message").textContent = "";
+    showTodayExercise();
+    drawExerciseChart();
+}
+
+// Zeigt das Formular und die Messwerte eines Profils an.
+function loadActiveDogProfile(profileId) {
+    const profile = findDogProfile(profileId);
+    if (profile === null) {
+        startNewProfile();
+        return;
+    }
+
+    activeDogProfileId = profile.id;
+    creatingNewProfile = false;
+    localStorage.setItem("activeDogProfileId", activeDogProfileId);
+    populateDogProfileSelect();
+    fillDogProfileForm(profile);
+    loadProfileMeasurements(profile);
+}
+
+// Lädt gespeicherte Profile und wählt das zuletzt verwendete aus.
+function loadDogProfiles() {
     const savedProfiles = localStorage.getItem("dogProfiles");
-    if (savedProfiles === null) {
+    if (savedProfiles !== null) {
+        dogProfiles = JSON.parse(savedProfiles);
+    }
+
+    const savedProfileId = localStorage.getItem("activeDogProfileId");
+    if (dogProfiles.length === 0) {
+        startNewProfile();
+    } else if (findDogProfile(savedProfileId) !== null) {
+        loadActiveDogProfile(savedProfileId);
+    } else {
+        loadActiveDogProfile(dogProfiles[0].id);
+    }
+}
+
+// Wechselt zum im Auswahlfeld ausgewählten Hund.
+function changeDogProfile() {
+    if (dogProfileSelect.value !== "") {
+        loadActiveDogProfile(dogProfileSelect.value);
+    }
+}
+
+// Gibt die Werte aus dem Profilformular zurück.
+function getDogProfileFormValues() {
+    return {
+        name: document.getElementById("dog-name").value.trim(),
+        breed: document.getElementById("dog-breed").value.trim(),
+        age: document.getElementById("dog-age").value
+    };
+}
+
+// Gibt ein bestehendes Profil zurück oder erstellt einen neuen Datensatz.
+function getProfileToSave() {
+    if (!creatingNewProfile) {
+        return findDogProfile(activeDogProfileId);
+    }
+
+    const profile = {
+        id: "dog-" + (dogProfiles.length + 1),
+        name: "",
+        breed: "",
+        age: "",
+        exerciseRecords: {},
+        weightRecords: {}
+    };
+    dogProfiles.push(profile);
+    return profile;
+}
+
+// Speichert ein neues oder geändertes Hundprofil.
+function saveDogProfile(event) {
+    event.preventDefault();
+
+    const profile = getProfileToSave();
+    if (profile === null) {
+        document.getElementById("dog-profile-summary").textContent =
+            "Bitte wähle ein Profil oder erstelle ein neues.";
         return;
     }
 
-    const profiles = JSON.parse(savedProfiles);
-    if (profiles.length !== 1) {
-        return;
-    }
-
-    const profile = profiles[0];
-    const savedDogProfile = loadLegacyData("dogProfile");
-    profile.name = savedDogProfile.name || "Mein Hund";
-    profile.breed = savedDogProfile.breed || "";
-    profile.age = savedDogProfile.age || "";
-    profile.exerciseRecords = loadLegacyData("exerciseRecords");
-    profile.weightRecords = loadLegacyData("weightRecords");
-    localStorage.setItem("dogProfiles", JSON.stringify(profiles));
+    const formValues = getDogProfileFormValues();
+    profile.name = formValues.name;
+    profile.breed = formValues.breed;
+    profile.age = formValues.age;
+    activeDogProfileId = profile.id;
+    creatingNewProfile = false;
+    saveDogProfiles();
+    loadActiveDogProfile(profile.id);
 }
 
 // Gibt das heutige Datum im Format des Datumsfeldes zurück.
@@ -131,26 +251,21 @@ function showTodayExercise() {
 function saveExercise(event) {
     event.preventDefault();
 
+    const profile = findDogProfile(activeDogProfileId);
+    if (profile === null) {
+        document.getElementById("exercise-save-message").textContent =
+            "Bitte wähle zuerst ein Hundprofil aus.";
+        return;
+    }
+
     const date = document.getElementById("exercise-date").value;
     const minutes = Number(document.getElementById("exercise-time").value);
     exerciseRecords[date] = minutes;
-    localStorage.setItem("exerciseRecords", JSON.stringify(exerciseRecords));
-    syncMigratedProfile();
+    profile.exerciseRecords = exerciseRecords;
+    saveDogProfiles();
 
     document.getElementById("exercise-save-message").textContent =
         "Bewegungszeit für " + date + " gespeichert.";
-    showTodayExercise();
-    drawExerciseChart();
-}
-
-// Lädt gespeicherte Bewegungseinträge und setzt das Datumsfeld auf heute.
-function loadExerciseRecords() {
-    const savedRecords = localStorage.getItem("exerciseRecords");
-    if (savedRecords !== null) {
-        exerciseRecords = JSON.parse(savedRecords);
-    }
-
-    document.getElementById("exercise-date").value = getLocalDate();
     showTodayExercise();
     drawExerciseChart();
 }
@@ -159,25 +274,21 @@ function loadExerciseRecords() {
 function saveWeight(event) {
     event.preventDefault();
 
+    const profile = findDogProfile(activeDogProfileId);
+    if (profile === null) {
+        document.getElementById("weight-save-message").textContent =
+            "Bitte wähle zuerst ein Hundprofil aus.";
+        return;
+    }
+
     const date = document.getElementById("weight-date").value;
     const weight = Number(document.getElementById("weight-value").value);
     weightRecords[date] = weight;
-    localStorage.setItem("weightRecords", JSON.stringify(weightRecords));
-    syncMigratedProfile();
+    profile.weightRecords = weightRecords;
+    saveDogProfiles();
 
     document.getElementById("weight-save-message").textContent =
         "Gewicht für " + date + " gespeichert.";
-    drawExerciseChart();
-}
-
-// Lädt gespeicherte Gewichte und setzt das Datumsfeld auf heute.
-function loadWeightRecords() {
-    const savedWeights = localStorage.getItem("weightRecords");
-    if (savedWeights !== null) {
-        weightRecords = JSON.parse(savedWeights);
-    }
-
-    document.getElementById("weight-date").value = getLocalDate();
     drawExerciseChart();
 }
 
@@ -353,8 +464,8 @@ function drawExerciseChart() {
 
 migrateExistingData();
 dogProfileForm.addEventListener("submit", saveDogProfile);
-loadDogProfile();
+dogProfileSelect.addEventListener("change", changeDogProfile);
+newDogProfileButton.addEventListener("click", startNewProfile);
 exerciseForm.addEventListener("submit", saveExercise);
-loadExerciseRecords();
 weightForm.addEventListener("submit", saveWeight);
-loadWeightRecords();
+loadDogProfiles();

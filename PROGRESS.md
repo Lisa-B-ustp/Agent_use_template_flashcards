@@ -26,23 +26,27 @@
 - Mehrere Profile – Schritt 3: Bestehende Datenübernahme ergänzt
   - Bisheriges Profil sowie Bewegungs- und Gewichtsmessungen werden einmalig zusammengeführt
   - Alte Speicherwerte bleiben zur Sicherheit erhalten
-  - Änderungen werden bis zur Umstellung der Formulare mit der übernommenen Kopie synchronisiert
+- Mehrere Profile – Schritt 4: Profile erstellen und wechseln
+  - Neues Profil über das bestehende Formular anlegen
+  - Auswahl lädt die jeweiligen Profil-, Bewegungs- und Gewichtsdaten samt Grafik
+- Mehrprofil-Browser-Test erfolgreich abgeschlossen
+  - Profile, getrennte Messwerte und erneutes Laden überprüft
 
 ## Next
 
-- Mehrere Profile – Schritt 4: Profile erstellen und zwischen ihnen wechseln
+- Keine offenen Schritte
 
 ## Decisions & notes
 
-- Profil und Bewegungswerte werden im Browser gespeichert
+- Profile, Bewegungswerte und Gewichte werden gemeinsam pro Hund im Browser gespeichert
 - Pro Datum wird ein Tagesgesamtwert gespeichert; erneutes Speichern ersetzt den bisherigen Wert
 - Auch Gewicht wird pro Datum gespeichert; erneutes Speichern ersetzt den bisherigen Messwert
 - Das Profil enthält kein Gewichtsfeld; Gewichtsmessungen werden separat mit Datum erfasst
+- Die bisherigen Einzelprofil-Daten werden dem ersten Profil zugeordnet; alte Speicherwerte bleiben erhalten
 - Die Balkenhöhe wird relativ zum höchsten Wert der letzten 30 Tage berechnet
 - Die Gewichtslinie verwendet eine eigene Skala anhand der gespeicherten Messwerte
 - Der manuelle Browser-Test nach Ergänzung der Gewichtslinie wurde vom Nutzer als erfolgreich bestätigt
-- Die Steuerelemente für mehrere Profile sind gestaltet, aber noch nicht funktionsfähig
-- Die neue Profilspeicherung ist vorbereitet; Auswahl und Wechsel sind noch nicht angeschlossen
+- Der Mehrprofil-Browser-Test wurde vom Nutzer als erfolgreich bestätigt
 - Automatische Prüfungen wurden nicht ausgeführt
 
 ## Known problems
