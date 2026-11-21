@@ -1,4 +1,6 @@
 const dogProfileForm = document.getElementById("dog-profile-form");
+const exerciseForm = document.getElementById("exercise-form");
+let exerciseRecords = {};
 
 // Zeigt die gespeicherten Angaben unter dem Formular an.
 function showDogProfile(profile) {
@@ -37,5 +39,46 @@ function loadDogProfile() {
     showDogProfile(profile);
 }
 
+// Gibt das heutige Datum im Format des Datumsfeldes zurück.
+function getLocalDate() {
+    const currentDate = new Date();
+    const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+    const day = String(currentDate.getDate()).padStart(2, "0");
+    return currentDate.getFullYear() + "-" + month + "-" + day;
+}
+
+// Zeigt die gespeicherte Bewegungszeit von heute an.
+function showTodayExercise() {
+    const todayMinutes = exerciseRecords[getLocalDate()] || 0;
+    document.getElementById("today-exercise").textContent = todayMinutes + " Minuten";
+}
+
+// Speichert die Bewegungszeit für das ausgewählte Datum.
+function saveExercise(event) {
+    event.preventDefault();
+
+    const date = document.getElementById("exercise-date").value;
+    const minutes = Number(document.getElementById("exercise-time").value);
+    exerciseRecords[date] = minutes;
+    localStorage.setItem("exerciseRecords", JSON.stringify(exerciseRecords));
+
+    document.getElementById("exercise-save-message").textContent =
+        "Bewegungszeit für " + date + " gespeichert.";
+    showTodayExercise();
+}
+
+// Lädt gespeicherte Bewegungseinträge und setzt das Datumsfeld auf heute.
+function loadExerciseRecords() {
+    const savedRecords = localStorage.getItem("exerciseRecords");
+    if (savedRecords !== null) {
+        exerciseRecords = JSON.parse(savedRecords);
+    }
+
+    document.getElementById("exercise-date").value = getLocalDate();
+    showTodayExercise();
+}
+
 dogProfileForm.addEventListener("submit", saveDogProfile);
 loadDogProfile();
+exerciseForm.addEventListener("submit", saveExercise);
+loadExerciseRecords();

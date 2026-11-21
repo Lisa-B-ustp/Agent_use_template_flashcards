@@ -35,14 +35,15 @@
 
             <form id="exercise-form">
                 <label for="exercise-date">Datum</label>
-                <input type="date" id="exercise-date" name="exercise-date">
+                <input type="date" id="exercise-date" name="exercise-date" required>
 
                 <label for="exercise-time">Bewegungszeit in Minuten</label>
-                <input type="number" id="exercise-time" name="exercise-time" min="0" placeholder="z. B. 30">
+                <input type="number" id="exercise-time" name="exercise-time" min="0" placeholder="z. B. 30" required>
 
                 <button type="submit">Bewegung speichern</button>
             </form>
 
+            <p id="exercise-save-message" aria-live="polite"></p>
             <p>Heute: <strong id="today-exercise">0 Minuten</strong></p>
         </section>
 
